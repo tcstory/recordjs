@@ -25,12 +25,13 @@ btn[1].addEventListener('click', function () {
         console.log(mp3Blob);
         console.log("Force download");
         var url = window.URL.createObjectURL(mp3Blob);
-        var link = window.document.createElement('a');
-        link.href = url;
-        link.download = 'output.mp3';
-        var click = document.createEvent("Event");
-        click.initEvent("click", true, true);
-        link.dispatchEvent(click);
+        audio.src = url;
+        // var link = window.document.createElement('a');
+        // link.href = url;
+        // link.download = 'output.mp3';
+        // var click = document.createEvent("Event");
+        // click.initEvent("click", true, true);
+        // link.dispatchEvent(click);
     });
 });
 btn[2].addEventListener('click', function () {
@@ -38,11 +39,12 @@ btn[2].addEventListener('click', function () {
         console.log(wavBlob);
         console.log("Force download");
         var url = window.URL.createObjectURL(wavBlob);
-        var link = window.document.createElement('a');
-        link.href = url;
-        link.download = 'output.wav';
-        var click = document.createEvent("Event");
-        click.initEvent("click", true, true);
-        link.dispatchEvent(click);
+        audio.src = url;
+        // var link = window.document.createElement('a');
+        // link.href = url;
+        // link.download = 'output.wav';
+        // var click = document.createEvent("Event");
+        // click.initEvent("click", true, true);
+        // link.dispatchEvent(click);
     });
 });
