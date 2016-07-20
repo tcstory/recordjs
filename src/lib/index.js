@@ -6,21 +6,23 @@ navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 let Recorder = {
-    start() {
-        if (navigator.getUserMedia) {
-            navigator.getUserMedia({audio: true}, (s) => {
-                let context = new AudioContext();
-                let mediaStreamSource = context.createMediaStreamSource(s);
-                this._init(mediaStreamSource, {numChannels: 1});
-                this.record();
-            }, function () {
-                console.log('Rejected!', e);
-            });
-        } else {
-            console.log('navigator.getUserMedia not present');
+    init() {
+        if (!this.status) {
+            if (navigator.getUserMedia) {
+                navigator.getUserMedia({audio: true}, (s) => {
+                    let context = new AudioContext();
+                    let mediaStreamSource = context.createMediaStreamSource(s);
+                    this._init(mediaStreamSource, {numChannels: 1});
+                }, function () {
+                    console.log('Rejected!', e);
+                });
+            } else {
+                console.log('navigator.getUserMedia not present');
+            }
         }
     },
     _init(source, cfg) {
+        this.status = true;
         this.encoderWorker = new Worker(MP3_WORKER_PATH);
         this.config = cfg || {};
         this.bufferLen = cfg.bufferLen || 4096;
@@ -76,11 +78,11 @@ let Recorder = {
         source.connect(this.node);
         this.node.connect(this.context.destination);    //this should not be necessary
     },
-    record() {
+    start() {
         this.recording = true;
     },
     stop() {
-        this.context.close();
+        // this.context.close();
         this.recording = false;
     },
     clear() {

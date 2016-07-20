@@ -6,16 +6,14 @@ window.URL = window.URL || window.webkitURL;
 let btn = document.querySelectorAll('button');
 let text = document.querySelector('p');
 let audio = document.querySelector('audio');
-let recording = false;
 
 btn[0].addEventListener('click', function (ev) {
-    if (recording) {
-        recording = false;
+    if (Recorder.recording) {
         Recorder.stop();
         text.innerText = 'stop';
         document.body.classList.remove('recording')
     } else {
-        recording = true;
+        Recorder.init();
         Recorder.start();
         text.innerText = 'recording';
         document.body.classList.add('recording')
