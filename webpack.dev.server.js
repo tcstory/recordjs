@@ -5,7 +5,7 @@ var webpackConfig = require('./webpack.dev.config');
 if (process.env.AUTO === '1') {
     if (process.env.HTTPS === '1') {
         webpackConfig.entry.app.unshift(
-            "webpack-dev-server/client?https://0.0.0.0:30001/",
+            "webpack-dev-server/client?https://0.0.0.0:3000/",
             "webpack/hot/dev-server"
         );   
     } else {
