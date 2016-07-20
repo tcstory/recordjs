@@ -91,23 +91,17 @@ let Recorder = {
         this.currCallback = cb || this.config.callback;
         this.worker.postMessage({command: 'getBuffer'})
     },
-    exportWAV(cb, type) {
-        this.currCallback = cb || this.config.callback;
+    exportWAV(cb = function () {}, type) {
+        this.wavCallback = cb;
         type = type || this.config.type || 'audio/wav';
-        if (!this.currCallback) {
-            throw new Error('Callback not set');
-        }
         this.worker.postMessage({
             command: 'exportWAV',
             type: type
         });
     },
-    exportMP3(cb, type) {
-        this.currCallback = cb || this.config.callback;
+    exportMP3(cb  = function () {}, type) {
+        this.mp3Callback = cb;
         type = type || this.config.type || 'audio/mp3';
-        if (!this.currCallback) {
-            throw new Error('Callback not set');
-        }
         this.worker.postMessage({
             command: 'exportMP3',
             type: type
@@ -162,7 +156,7 @@ let Recorder = {
     },
     _exportWav(e) {
         let wavBlob = e.data;
-        this.currCallback(wavBlob);
+        this.wavCallback(wavBlob);
     },
     _exportMp3(e) {
         let blob = e.data;
@@ -186,7 +180,7 @@ let Recorder = {
             this.encoderWorker.onmessage = (e) => {
                 if (e.data.cmd == 'data') {
                     let mp3Blob = new Blob([new Uint8Array(e.data.buf)], {type: 'audio/mp3'});
-                    this.currCallback(mp3Blob);
+                    this.mp3Callback(mp3Blob);
                 }
             };
         };
