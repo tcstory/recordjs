@@ -23,6 +23,7 @@ let Recorder = {
     },
     _init(source, cfg) {
         this.status = true;
+        this.recording = false;
         this.encoderWorker = new Worker(MP3_WORKER_PATH);
         this.config = cfg || {};
         this.bufferLen = cfg.bufferLen || 4096;

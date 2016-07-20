@@ -7,13 +7,14 @@ let btn = document.querySelectorAll('button');
 let text = document.querySelector('p');
 let audio = document.querySelector('audio');
 
+Recorder.init();
+
 btn[0].addEventListener('click', function (ev) {
     if (Recorder.recording) {
         Recorder.stop();
         text.innerText = 'stop';
         document.body.classList.remove('recording')
     } else {
-        Recorder.init();
         Recorder.start();
         text.innerText = 'recording';
         document.body.classList.add('recording')
