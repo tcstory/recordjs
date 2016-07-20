@@ -7,7 +7,7 @@
     <style>
         button {
             width: 100px;
-            height: 36px;
+            min-height: 36px;
             outline: none;
             border: none;
             background: hsl(199, 98%, 48%);
@@ -15,11 +15,18 @@
             font-size: 20px;
             cursor: pointer;
         }
+        body.recording button:nth-of-type(2), body.recording button:nth-of-type(3) {
+            pointer-events: none;
+            -webkit-filter: grayScale(1);
+            filter: grayScale(1);
+        }
     </style>
 </head>
 <body>
 <audio src="" controls></audio>
 <p>stop</p>
 <button>Record </button>
+<button>Download Mp3 </button>
+<button>Download Wav </button>
 </body>
 </html>

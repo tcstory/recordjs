@@ -1,23 +1,49 @@
-import {startRecording, stopRecording} from './lib/index.js';
+import Recorder from './lib/index.js';
 
 window.URL = window.URL || window.webkitURL;
 
 
-let btn = document.querySelector('button');
+let btn = document.querySelectorAll('button');
 let text = document.querySelector('p');
 let audio = document.querySelector('audio');
 let recording = false;
 
-btn.addEventListener('click', function (ev) {
+btn[0].addEventListener('click', function (ev) {
     if (recording) {
         recording = false;
-        stopRecording(function (blob) {
-            audio.src = window.URL.createObjectURL(blob);
-        });
+        Recorder.stop();
         text.innerText = 'stop';
+        document.body.classList.remove('recording')
     } else {
         recording = true;
-        startRecording();
-        text.innerText = 'recording'
+        Recorder.start();
+        text.innerText = 'recording';
+        document.body.classList.add('recording')
     }
+});
+btn[1].addEventListener('click', function () {
+    Recorder.exportMP3(function (mp3Blob) {
+        console.log(mp3Blob);
+        console.log("Force download");
+        var url = window.URL.createObjectURL(mp3Blob);
+        var link = window.document.createElement('a');
+        link.href = url;
+        link.download = 'output.mp3';
+        var click = document.createEvent("Event");
+        click.initEvent("click", true, true);
+        link.dispatchEvent(click);
+    });
+});
+btn[2].addEventListener('click', function () {
+    Recorder.exportWAV(function (wavBlob) {
+        console.log(wavBlob);
+        console.log("Force download");
+        var url = window.URL.createObjectURL(wavBlob);
+        var link = window.document.createElement('a');
+        link.href = url;
+        link.download = 'output.wav';
+        var click = document.createEvent("Event");
+        click.initEvent("click", true, true);
+        link.dispatchEvent(click);
+    });
 });

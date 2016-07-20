@@ -1,5 +1,6 @@
+importScripts('http://7qn8rp.com1.z0.glb.clouddn.com/libmp3lame.min.js');
+
 let mp3codec;
-let Lame;
 
 self.onmessage = function (e) {
     let mp3data;
@@ -8,7 +9,6 @@ self.onmessage = function (e) {
             if (!e.data.config) {
                 e.data.config = {};
             }
-            Lame = e.data.config.Lame;
             mp3codec = Lame.init();
             Lame.set_mode(mp3codec, e.data.config.mode || Lame.JOINT_STEREO);
             Lame.set_num_channels(mp3codec, e.data.config.channels || 2);

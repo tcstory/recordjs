@@ -14,6 +14,9 @@ self.onmessage = function (e) {
         case 'exportWAV':
             exportWAV(e.data.type);
             break;
+        case 'exportMP3':
+            exportMP3(e.data.type);
+            break;
         case 'getBuffer':
             getBuffer();
             break;
@@ -49,7 +52,23 @@ function exportWAV(type) {
     }
     let dataview = encodeWAV(interleaved);
     let audioBlob = new Blob([dataview], {type: type});
-    self.postMessage(audioBlob);
+    self.postMessage({command: 'exportWAV', data: audioBlob});
+}
+
+function exportMP3(type) {
+    let buffers = [];
+    for (let channel = 0; channel < numChannels; channel++) {
+        buffers.push(mergeBuffers(recBuffers[channel], recLength));
+    }
+    let interleaved;
+    if (numChannels === 2) {
+        interleaved = interleave(buffers[0], buffers[1]);
+    } else {
+        interleaved = buffers[0];
+    }
+    let dataview = encodeWAV(interleaved);
+    let audioBlob = new Blob([dataview], {type: type});
+    self.postMessage({command: 'exportMP3', data: audioBlob});
 }
 
 function getBuffer() {
